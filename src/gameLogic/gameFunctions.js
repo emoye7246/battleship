@@ -1,3 +1,6 @@
+import { Ships } from "./gamePeices"
+import { ships } from "./gamePeices"
+
 export class Battleship {
 
 
@@ -13,7 +16,7 @@ export class Battleship {
 
         for(let j = 0; j < row; j++){
 
-            gameBoard[i][j] = j
+            gameBoard[i][j] = 3
         }
         }
 
@@ -21,13 +24,58 @@ export class Battleship {
 
     }
 
-    placeShips(){
+    placeShips(xcord, marker, shipSpots){
 
+        let horizontal = false
+        let vertical = true
         let gameBoard = this.gameBoard()
 
-        console.log(gameBoard)
+        if(horizontal == true){
 
+            gameBoard[xcord].fill(0, marker, marker + shipSpots)
+    
+            console.log(gameBoard)
+    
+            this.recieveAttack(gameBoard, 0, 0)
+        }
+        else if(vertical == true){
+            
+
+            for(let i = 0; i < shipSpots; i++){
+
+                gameBoard[i][marker] = 0
+                // FIVE BIG BOOOMMS
+
+            }
+
+            console.log(gameBoard)
+
+
+        }
+
+
+        
+    }
+
+
+    // find a way to change horizontal or diagonal 
+
+    recieveAttack(gameBoard, xCord, yCord){
+
+        let attack = gameBoard[xCord][yCord]
+
+        if(attack == 0){
+
+            console.log('PlayerOne is hit')
+        }
+        else{
+
+            console.log('miss')
+        }
+
+        console.log(attack)
     }
 
 
 }
+new Battleship().placeShips(8, 4, ships[0].spots)
