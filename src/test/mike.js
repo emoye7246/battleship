@@ -1,27 +1,17 @@
- export function hits(obj){
-    let sunk = false
+export function testArray(arr, i, j){
 
-    if(obj.length == 0){
 
-        sunk = true
-        
+    if(i >= arr.length){
 
+        return 'works'
     }
     else{
 
-        sunk = false
+    return arr[i][j]
 
     }
-    return addHit(obj.length)
-}
 
-export function addHit(num){
 
-    let addHit = 0
-
-    let newAdd = addHit + num
-
-    return newAdd
 }
 
 

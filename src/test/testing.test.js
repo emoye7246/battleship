@@ -1,10 +1,14 @@
-import { addHit, hits } from "./mike";
+import { testArray } from "./mike"
 
 
-test('Should return False', () => {
+test('Should return undefined', () => {
 
-    let arrayMe = [0, 1 , 2]
-    expect(hits(arrayMe)).toBe(3);
+    let arr = [
+        [0, 1, 3, 4, 5],
+        [0,1,2,3,4, 5]
+    ]
+
+    expect(testArray(arr, 2, 3)).toBe('works')
 
 
 })

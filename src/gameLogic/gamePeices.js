@@ -2,7 +2,6 @@ export let ships = [
     {
         name: 'Carrier', 
         spots: 5,
-        hits: 0, 
         sunk: false
         
     },

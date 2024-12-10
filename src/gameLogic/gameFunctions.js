@@ -24,41 +24,40 @@ export class Battleship {
 
     }
 
-    placeShips(xcord, marker, shipSpots){
+    placeShips(x, y, ship){
 
+        let gameBoard = this.gameBoard()
         let horizontal = false
         let vertical = true
-        let gameBoard = this.gameBoard()
-
-        if(horizontal == true){
-
-            gameBoard[xcord].fill(0, marker, marker + shipSpots)
     
-            console.log(gameBoard)
-    
-            this.recieveAttack(gameBoard, 0, 0)
-        }
-        else if(vertical == true){
-            
+        for(let i = 0; i < ship; i++){
 
-            for(let i = 0; i < shipSpots; i++){
+            if(x >= 10 || y >= 10){
 
-                gameBoard[i][marker] = 0
-                // FIVE BIG BOOOMMS
-
+                return console.log('Please place on gameboard')
             }
+            else if(gameBoard[x][y] != 3 ){
 
-            console.log(gameBoard)
+                return console.log('Space is occupied')
+            }
+            else{
 
+                if(horizontal == true){
+                    gameBoard[x][y++] = 0
+                }
 
+                if(vertical == true){
+
+                    gameBoard[x++][y] = 0
+                }
+                
+            }
         }
 
-
+        console.log(gameBoard)
         
     }
 
-
-    // find a way to change horizontal or diagonal 
 
     recieveAttack(gameBoard, xCord, yCord){
 
@@ -77,5 +76,7 @@ export class Battleship {
     }
 
 
+
 }
-new Battleship().placeShips(8, 4, ships[0].spots)
+new Battleship().placeShips(9, 3, ships[0].spots)
+
