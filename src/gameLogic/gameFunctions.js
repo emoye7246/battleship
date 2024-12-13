@@ -3,7 +3,6 @@ import { ships } from "./gamePeices"
 
 export class Battleship {
 
-
     gameBoard(){
 
         let gameBoard = []
@@ -12,11 +11,16 @@ export class Battleship {
 
         for(let i = 0; i < column; i++){
 
+
             gameBoard[i] = []
+
+            
 
         for(let j = 0; j < row; j++){
 
             gameBoard[i][j] = 3
+            
+
         }
         }
 
@@ -24,13 +28,18 @@ export class Battleship {
 
     }
 
-    placeShips(x, y, ship){
+    placeShips(){
 
         let gameBoard = this.gameBoard()
         let horizontal = false
         let vertical = true
+
+        ships.forEach((element) => {
+
+        let x = prompt('')
+        let y = prompt('')
     
-        for(let i = 0; i < ship; i++){
+        for(let i = 0; i < element.spots; i++){
 
             if(x >= 10 || y >= 10){
 
@@ -54,29 +63,11 @@ export class Battleship {
             }
         }
 
-        console.log(gameBoard)
-        
+    })
+
+    console.log(gameBoard)
     }
-
-
-    recieveAttack(gameBoard, xCord, yCord){
-
-        let attack = gameBoard[xCord][yCord]
-
-        if(attack == 0){
-
-            console.log('PlayerOne is hit')
-        }
-        else{
-
-            console.log('miss')
-        }
-
-        console.log(attack)
-    }
-
-
 
 }
-new Battleship().placeShips(9, 3, ships[0].spots)
+new Battleship().gameBoard()
 

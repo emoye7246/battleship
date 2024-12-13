@@ -52,4 +52,6 @@ hits(hitCount, obj){
 
     return obj[0]
 }
+
+acr
 }
