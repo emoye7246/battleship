@@ -4,5 +4,3 @@ import { Ships } from "./gameLogic/gamePeices";
 import { createDom } from './Ui/ui';
 
 
-createDom(10)
-

@@ -1,73 +1,70 @@
-import { Ships } from "./gamePeices"
 import { ships } from "./gamePeices"
+
+
+let gameBoard = []
 
 export class Battleship {
 
     gameBoard(){
+        
+        let board = document.getElementById("board");
+        board.style.gridTemplateColumns = `repeat(${10}, 1fr)`;
+        
+        
+        for(let i = 0; i < 10; i++){
+        
+                gameBoard[i] = []
 
-        let gameBoard = []
-        let column = 10
-        let row = 10
-
-        for(let i = 0; i < column; i++){
-
-
-            gameBoard[i] = []
-
-            
-
-        for(let j = 0; j < row; j++){
-
-            gameBoard[i][j] = 3
-            
-
-        }
-        }
-
-        return gameBoard
-
-    }
-
-    placeShips(){
-
-        let gameBoard = this.gameBoard()
-        let horizontal = false
-        let vertical = true
-
-        ships.forEach((element) => {
-
-        let x = prompt('')
-        let y = prompt('')
-    
-        for(let i = 0; i < element.spots; i++){
-
-            if(x >= 10 || y >= 10){
-
-                return console.log('Please place on gameboard')
-            }
-            else if(gameBoard[x][y] != 3 ){
-
-                return console.log('Space is occupied')
-            }
-            else{
-
-                if(horizontal == true){
-                    gameBoard[x][y++] = 0
-                }
-
-                if(vertical == true){
-
-                    gameBoard[x++][y] = 0
-                }
+            for(let j = 0; j < 10; j++){
                 
+                gameBoard[i][j] = 3
+
             }
-        }
 
-    })
+        }  
 
-    console.log(gameBoard)
+       return gameBoard
+        // every square represents a j so you must think how you would use j to manipulate each square
     }
 
-}
-new Battleship().gameBoard()
+    createDom(){
 
+        this.gameBoard()
+
+        board.style.gridTemplateColumns = `repeat(${10}, 1fr)`;
+    
+        for(let i = 0; i < 10; i++){
+    
+        let board = document.getElementById("board");
+            
+        for(let j = 0; j < 10; j++){
+            
+            let squares = document.createElement('div')
+            squares.classList.add('squares')
+            board.append(squares)
+
+            this.placeShips(squares, i, j)
+
+        }
+    
+    } 
+
+    }
+
+    placeShips(check, x, y){
+
+        check.addEventListener('click', () => {
+
+            gameBoard[x][y] = 0
+            console.log(gameBoard)
+        })
+
+    }
+
+    // Make a function in the ships object to see where objects are placed 
+    // Start here 
+}
+
+
+
+// new Battleship().gameBoard()
