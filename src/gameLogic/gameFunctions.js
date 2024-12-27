@@ -1,15 +1,10 @@
-import { ships } from "./gamePeices"
-
-
-let gameBoard = []
+import { Ships, ships } from "./gamePeices"
 
 export class Battleship {
 
     gameBoard(){
-        
-        let board = document.getElementById("board");
-        board.style.gridTemplateColumns = `repeat(${10}, 1fr)`;
-        
+
+        let gameBoard = []
         
         for(let i = 0; i < 10; i++){
         
@@ -24,47 +19,107 @@ export class Battleship {
         }  
 
        return gameBoard
-        // every square represents a j so you must think how you would use j to manipulate each square
     }
 
-    createDom(){
+    placeShips(){
 
-        this.gameBoard()
+        let gameBoard = this.gameBoard()
 
-        board.style.gridTemplateColumns = `repeat(${10}, 1fr)`;
-    
-        for(let i = 0; i < 10; i++){
-    
-        let board = document.getElementById("board");
-            
-        for(let j = 0; j < 10; j++){
-            
-            let squares = document.createElement('div')
-            squares.classList.add('squares')
-            board.append(squares)
+        let Carrier = new Ships('Carrier', 5)
+        let Battleship = new Ships('Battleship', 4)
+        let Cruiser = new Ships('Cruiser', 3)
+        let Submarine = new Ships('Submarine', 3)
+        let Destroyer = new Ships('Destroyer', 2)
 
-            this.placeShips(squares, i, j)
+        let shipCount = [Carrier, Battleship, Cruiser, Submarine, Destroyer]
 
-        }
-    
-    } 
+        let horizontal = false
+        let vertical = false
 
-    }
+        let placedShips = 0
 
-    placeShips(check, x, y){
+        shipCount.forEach((element) => {
 
-        check.addEventListener('click', () => {
+            let x = window.prompt('Enter a X Coordinate')
+            let y = window.prompt('Enter a Y Coordinate')
 
-            gameBoard[x][y] = 0
+            let direction = window.prompt('Choose H for horizontal or V for vertical')
+
+            if(direction == 'V'){
+
+                vertical = true
+                horizontal = false
+            }
+            else if(direction == 'H'){
+
+                horizontal = true
+                vertical = false
+            }
+
+            for(let i = 0; i < element.length; i++){
+
+                if(horizontal == true){
+
+
+                    if(y > 9 || gameBoard[x][y] != 3){
+
+                        return console.log("This is invalid")
+                    }
+                    else{
+
+                        gameBoard[x][y] = element.position
+                        y++
+
+                    }
+                    
+                }
+                else if(vertical == true){
+
+                    if(x > 9 || gameBoard[x][y] != 3){
+
+                        return console.log("This is invalid")
+                    }
+                    else{
+
+                        gameBoard[x][y] = element.position
+                        x++ 
+
+                    }
+
+                }
+                console.log(`${element.ship} has been placed at ${x}, ${y}`)
+            }
+            placedShips++
             console.log(gameBoard)
+
+            if(placedShips == shipCount.length){
+
+                console.log('All ships have been placed')
+                return this.recieveAttack(gameBoard)
+            }
+            else{
+    
+                console.log(`Now place your ${shipCount[placedShips].ship}`)
+            }
         })
 
     }
 
-    // Make a function in the ships object to see where objects are placed 
-    // Start here 
+    recieveAttack(array){
+
+        let X = window.prompt('Choose an X coordiante for the attack')
+        let Y = window.prompt('Choose an Y coordiante for the attack')
+
+        if(array[X][Y] == 0){
+
+            console.log('Hit')
+        }
+        else{
+
+            console.log('Miss')
+        }
+
+    }
 }
-
-
-
-// new Battleship().gameBoard()
+// I think it works
+new Battleship().placeShips()

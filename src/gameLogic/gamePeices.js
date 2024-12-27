@@ -8,16 +8,31 @@ export class Ships {
 
         this.hit = 0, 
 
-        this.sunk = false
+        this.sunk = false,
+
+        this.position = 0
     }
 
-    createShip(){
+
+    isHit(){
+
+        this.hit = 5
+
+        if(this.hit == this.length){
+
+            this.sunk = true
+            this.isSunk()
+        }
+        else{
+
+            console.log(`${this.ship} has been hit ${this.hit} times`)
+        }
         
-       
-
-
     }
-}
 
-let carrier = new Ships('Carrier', 5)
-console.log(carrier)
+    isSunk(){
+
+        console.log(`${this.ship} has been sunk mayday mayday`)
+    }
+
+}
