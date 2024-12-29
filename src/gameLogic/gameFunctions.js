@@ -45,57 +45,32 @@ export class Battleship {
 
             let direction = window.prompt('Choose H for horizontal or V for vertical')
 
-            if(direction == 'V'){
-
-                vertical = true
-                horizontal = false
-            }
-            else if(direction == 'H'){
-
-                horizontal = true
-                vertical = false
-            }
+            direction == 'V' ? vertical = true :  direction == 'H' ? horizontal = true: console.log('Hi')
 
             for(let i = 0; i < element.length; i++){
 
                 if(horizontal == true){
 
-
-                    if(y > 9 || gameBoard[x][y] != 3){
-
-                        return console.log("This is invalid")
-                    }
-                    else{
-
-                        gameBoard[x][y] = element.position
-                        y++
-
-                    }
-                    
+                    y > 9 || gameBoard[x][y] != 3 ? console.log("This is invalid") : gameBoard[x][y] = element.ship, y++
                 }
                 else if(vertical == true){
 
-                    if(x > 9 || gameBoard[x][y] != 3){
-
-                        return console.log("This is invalid")
-                    }
-                    else{
-
-                        gameBoard[x][y] = element.position
-                        x++ 
-
-                    }
+                    x > 9 || gameBoard[x][y] != 3 ? console.log("This is invalid") :  gameBoard[x][y] = element.ship, x++
 
                 }
+
                 console.log(`${element.ship} has been placed at ${x}, ${y}`)
             }
+
             placedShips++
+            
             console.log(gameBoard)
 
             if(placedShips == shipCount.length){
 
                 console.log('All ships have been placed')
-                return this.recieveAttack(gameBoard)
+                console.log(shipCount)
+                return this.recieveAttack(gameBoard, shipCount)
             }
             else{
     
@@ -105,21 +80,36 @@ export class Battleship {
 
     }
 
-    recieveAttack(array){
+    recieveAttack(array, array2){
 
         let X = window.prompt('Choose an X coordiante for the attack')
         let Y = window.prompt('Choose an Y coordiante for the attack')
 
-        if(array[X][Y] == 0){
+        if(array[X][Y] != 3) {
 
-            console.log('Hit')
+            array2.forEach((element) => {
+
+                if(element.ship == array[X][Y]){
+
+                    console.log(`Hit ${element.ship}`)
+                    element.hit++
+                }
+                else{
+
+                    console.log(`Missed ${element.ship}`)
+                }
+            })
+            console.log(array2)
         }
         else{
 
             console.log('Miss')
+
         }
 
     }
 }
 // I think it works
+
+// Condense all if statemnets
 new Battleship().placeShips()

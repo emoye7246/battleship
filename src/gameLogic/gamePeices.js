@@ -10,13 +10,12 @@ export class Ships {
 
         this.sunk = false,
 
-        this.position = 0
+        this.place = []
+
     }
 
 
     isHit(){
-
-        this.hit = 5
 
         if(this.hit == this.length){
 
