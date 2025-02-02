@@ -5,6 +5,8 @@ export class Battleship {
     gameBoard(){
 
         let gameBoard = []
+        let board = document.getElementById('gameboard')
+
         
         for(let i = 0; i < 10; i++){
         
@@ -12,13 +14,74 @@ export class Battleship {
 
             for(let j = 0; j < 10; j++){
                 
+                let cell = document.createElement('div')
+                cell.classList.add('cell')
+                cell.textContent = i 
+
+                cell.addEventListener('click', () => {
+
+                    console.log(i, j)
+                })
+                board.append(cell)
+
                 gameBoard[i][j] = 3
 
             }
+            
 
         }  
+        console.log(gameBoard)
 
        return gameBoard
+    }
+
+
+    placeShipsUi(element, array){
+
+        let length = document.getElementById('length')
+        let name = document.getElementById('name')
+        let placeShip = document.getElementById('placeShip')
+        let ui = document.getElementById('ui')
+        let placed = document.getElementById('placed')
+
+
+
+            let myShipsX = document.createElement('input')
+            let myShipsY = document.createElement('input')
+
+            let enter = document.createElement('button')
+
+            enter.innerHTML = 'Enter'
+
+            length.innerHTML = `${element.length}`
+            name.innerHTML = `${element.ship}`
+            placeShip.innerHTML = `Place ${element.ship}`
+
+            let ships = document.createElement('div')
+            
+
+            ui.append(myShipsX, myShipsY, enter)
+
+            enter.addEventListener('click', () => {
+
+                ships.innerHTML = `${element.ship} was placed at ${myShipsX.value}, ${myShipsY.value}`
+                array[myShipsX.value][myShipsY.value] = 0
+                console.log(array)
+                placed.append(ships)
+                
+
+
+
+
+        })
+
+
+
+
+        // ui.append(myShips, enter)
+
+
+        
     }
 
     placeShips(){
@@ -32,55 +95,20 @@ export class Battleship {
         let Destroyer = new Ships('Destroyer', 2)
 
         let shipCount = [Carrier, Battleship, Cruiser, Submarine, Destroyer]
+        
 
-        let horizontal = false
-        let vertical = false
+        for(let i = 0; i < shipCount.length; i++){
 
-        let placedShips = 0
-
-        shipCount.forEach((element) => {
-
-            let x = window.prompt('Enter a X Coordinate')
-            let y = window.prompt('Enter a Y Coordinate')
-
-            let direction = window.prompt('Choose H for horizontal or V for vertical')
-
-            direction == 'V' ? vertical = true :  direction == 'H' ? horizontal = true: console.log('Hi')
-
-            for(let i = 0; i < element.length; i++){
-
-                if(horizontal == true){
-
-                    y > 9 || gameBoard[x][y] != 3 ? console.log("This is invalid") : gameBoard[x][y] = element.ship, y++
-                }
-                else if(vertical == true){
-
-                    x > 9 || gameBoard[x][y] != 3 ? console.log("This is invalid") :  gameBoard[x][y] = element.ship, x++
-
-                }
-
-                console.log(`${element.ship} has been placed at ${x}, ${y}`)
-            }
-
-            placedShips++
-            
-            console.log(gameBoard)
-
-            if(placedShips == shipCount.length){
-
-                console.log('All ships have been placed')
-                console.log(shipCount)
-                return this.recieveAttack(gameBoard, shipCount)
-            }
-            else{
-    
-                console.log(`Now place your ${shipCount[placedShips].ship}`)
-            }
-        })
+            this.placeShipsUi(shipCount[i], gameBoard)
+        }
 
     }
 
     recieveAttack(array, array2){
+
+        let check = array2.every((spot) => spot.sunk == true)
+
+        while(check == false){
 
         let X = window.prompt('Choose an X coordiante for the attack')
         let Y = window.prompt('Choose an Y coordiante for the attack')
@@ -91,8 +119,11 @@ export class Battleship {
 
                 if(element.ship == array[X][Y]){
 
+                    array[X][Y] = 'Hit'
                     console.log(`Hit ${element.ship}`)
                     element.hit++
+                    element.isHit()
+                    this.gameOver(array2)
                 }
                 else{
 
@@ -108,8 +139,28 @@ export class Battleship {
         }
 
     }
-}
-// I think it works
 
-// Condense all if statemnets
+    }
+
+    gameOver(array){
+
+        let check = array.every((spot) => spot.sunk == true)
+
+        if(check == true){
+
+            console.log('You WIn')
+        }
+        else{
+            
+            console.log('Game is in progress')
+        }
+        
+
+    } 
+
+}
+
+
+// new Battleship().placeShips()
 new Battleship().placeShips()
+// Continue tomorrow

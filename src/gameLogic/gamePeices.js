@@ -8,9 +8,7 @@ export class Ships {
 
         this.hit = 0, 
 
-        this.sunk = false,
-
-        this.place = []
+        this.sunk = false
 
     }
 

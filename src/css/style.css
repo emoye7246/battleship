@@ -5,16 +5,39 @@ body{
     justify-content: center;
 }
 
-#board{
+.board{
 
     display: grid;
-    border: 1px solid black;
-    height: 400px;
-    width: 400px;
+    grid-template-columns: repeat(10, 50px);
+    grid-template-rows: repeat(10, 50px);
+    gap: 2px;
+    width: max-content;
+    background-color: black;
+    padding: 5px;
     
 }
-.squares{
 
-    grid-template-columns: repeat(10, 1fr);
+.cell{
+
+    width: 50px;
+    height: 50px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    border: 1px solid gray;
+    cursor: pointer;
+}
+
+.cell:hover{
+
+    background-color: lightgray;
+}
+
+#boardUi{
+
+    height: 400px;
+    width: 400px;
     border: 1px solid black;
 }
