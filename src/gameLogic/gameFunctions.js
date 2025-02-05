@@ -5,7 +5,6 @@ export class Battleship {
     gameBoard(){
 
         let gameBoard = []
-        let board = document.getElementById('gameboard')
 
         
         for(let i = 0; i < 10; i++){
@@ -14,93 +13,91 @@ export class Battleship {
 
             for(let j = 0; j < 10; j++){
                 
-                let cell = document.createElement('div')
-                cell.classList.add('cell')
-                cell.textContent = i 
-
-                cell.addEventListener('click', () => {
-
-                    console.log(i, j)
-                })
-                board.append(cell)
-
                 gameBoard[i][j] = 3
 
             }
-            
-
         }  
-        console.log(gameBoard)
 
        return gameBoard
     }
 
 
-    placeShipsUi(array, gameBoard){
+    placeShipsUi(array){
+
+            let gameBoard = this.gameBoard()
 
             let shipName = document.getElementById('shipName')
             let shipLength = document.getElementById('shipLength')
-            let sendOutput = document.getElementById('sendOutput')
-            let shipInputs = document.getElementById('shipInputs')  
             let placedShips = document.getElementById('placedShips')
 
+            let board = document.getElementById('gameboard')
+
             let ships = 0
+
+            shipName.innerHTML = `Place Your ${array[ships].ship}`
+            shipLength.innerHTML = `Length is: ${array[ships].length}`
             
-            let xLabel= document.createElement('label')
-            xLabel.innerHTML = 'Choose Your X coordiante'
+        for(let row = 0; row < 10; row++){
 
-            let yLabel = document.createElement('label')
-            yLabel.innerHTML = 'Choose Your Y coordiante'
+            for(let col = 0; col < 10; col++){
 
-            let inputX = document.createElement('input')
-            inputX.type = 'number'
-            inputX.max = '9'
-            inputX.min = '0'
+                let cell = document.createElement('div')
+                cell.classList.add('cell')
+                cell.textContent = row 
 
-            let inputY = document.createElement('input')
-            inputY.type = 'number'
-            inputY.max = '9'
-            inputY.min = '0'
+                cell.addEventListener('click', () => {
 
-        shipInputs.insertBefore(xLabel, sendOutput)
-        shipInputs.insertBefore(inputX, sendOutput)
+                if(ships < array.length){
 
-        shipInputs.insertBefore(yLabel, sendOutput)
-        shipInputs.insertBefore(inputY, sendOutput)
+                    let placedShip = document.createElement('div')
+                    placedShip.innerHTML = `${array[ships].ship} was placed at ${row}, ${col}`
 
-        sendOutput.addEventListener('click', () => {
 
-            if(ships < array.length){
 
-            let placedShip = document.createElement('div')
-            placedShip.innerHTML = `${array[ships].ship} was placed at ${inputX.value}, ${inputY.value}`
+                    placedShips.append(placedShip)
+                    console.log(ships)
 
-            shipName.innerHTML = `${array[ships].ship}`
-            shipLength.innerHTML = `${array[ships].length}`
+                    // gameboard row + 4 = 0
 
-            placedShips.append(placedShip)
-            console.log(ships)
+                    for(let i = 0; i < array[ships].length; i++){
+
+                        if(col >= 9){
+
+                           return 
+
+                        }else if(col <= 9){
+
+                            gameBoard[row][col++] = 0
+                            cell.style.background = 'red'
+                        }
+                    }
+                    shipName.innerHTML = `Place Your ${array[ships].ship}`
+                    shipLength.innerHTML = `Length is: ${array[ships].length}`
+                    console.log(gameBoard)
+                    console.log(`${array[ships].ship} was placed`)
+                    ships++
+
+ 
+
+
+                }
+                else if(ships == array.length){
+
+                    return console.log('all ships have been placed')
+                 }
+
+            })
+            board.append(cell)
+            
                 
-            
-            gameBoard[inputX.value][inputY.value] = 0
-            ships++
-            console.log(gameBoard)
-
             }
 
-            else if(ships == array.length){
+        }
 
-               return console.log('all ships have been placed')
-            }
-
-
-
-        })
     }
 
     placeShips(){
 
-        let gameBoard = this.gameBoard()
 
         let Carrier = new Ships('Carrier', 5)
         let Battleship = new Ships('Battleship', 4)
@@ -110,7 +107,7 @@ export class Battleship {
 
         let shipCount = [Carrier, Battleship, Cruiser, Submarine, Destroyer]
 
-        this.placeShipsUi(shipCount, gameBoard)
+        this.placeShipsUi(shipCount)
         
     }
 
