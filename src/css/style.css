@@ -1,6 +1,7 @@
 body{
 
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
@@ -35,9 +36,30 @@ body{
     background-color: lightgray;
 }
 
-#boardUi{
+#Ui{
 
-    height: 400px;
-    width: 400px;
-    border: 1px solid black;
+    gap: 64px;
+}
+
+#shipUi {
+
+        display: flex;
+        height: auto;
+        width: auto;
+        /* height: max-content; */
+        width: max-content;
+        justify-content: space-evenly;
+        flex-direction: column;
+        align-items: center;
+}
+
+#shipInputs{
+
+        display: flex;
+        flex-direction: row;
+        width: max-content;
+        height: max-content;
+        justify-content: center;
+        align-items: center;
+        gap: 34px;
 }

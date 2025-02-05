@@ -8,34 +8,32 @@
 <body>
 
         <h3>Welcome to Battleship</h3>
+
+        <div id="Ui" style="display: flex; flex-direction: row;">
+
             <div id="gameboard" class="board"></div>
 
+            <div id="shipUi">
 
-            <div id="boardUi">
+                <h3>Place Your Ships</h3>
 
-                <h3>Ship</h3>
+                <div style="height: 200px; width: 200px; border: 1px solid black;"></div>
 
-                <div style="border: 1px solid black; height: 200px; width: 200px;"></div>
-                <div id="shipDeatails">
+                <div id="shipName">Ship Is</div>
+                <div id="shipLength">Ship Length is</div>
 
-                    <div id="length"></div>
-                    <div id="name"></div>
+                <div id="shipInputs" style="display: flex; flex-direction: row;">
+
+
+
+                    <button id="sendOutput">Enter</button>
                 </div>
 
-                <label for="">
-                    <div>Ship Cordinates</div>
+                <div id="placedShips"></div>
 
-                    <div id="ui">
-                    </div>
-
-                </label>
-
-
-
-                <div style="color: red;" id="placeShip"></div>
+                
             </div>
-
-            <div id="placed"></div>
+        </div>
 
 </body>
 </html>

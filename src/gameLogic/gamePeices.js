@@ -12,7 +12,6 @@ export class Ships {
 
     }
 
-
     isHit(){
 
         if(this.hit == this.length){

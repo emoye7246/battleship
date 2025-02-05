@@ -36,52 +36,66 @@ export class Battleship {
     }
 
 
-    placeShipsUi(element, array){
+    placeShipsUi(array, gameBoard){
 
-        let length = document.getElementById('length')
-        let name = document.getElementById('name')
-        let placeShip = document.getElementById('placeShip')
-        let ui = document.getElementById('ui')
-        let placed = document.getElementById('placed')
+            let shipName = document.getElementById('shipName')
+            let shipLength = document.getElementById('shipLength')
+            let sendOutput = document.getElementById('sendOutput')
+            let shipInputs = document.getElementById('shipInputs')  
+            let placedShips = document.getElementById('placedShips')
 
-
-
-            let myShipsX = document.createElement('input')
-            let myShipsY = document.createElement('input')
-
-            let enter = document.createElement('button')
-
-            enter.innerHTML = 'Enter'
-
-            length.innerHTML = `${element.length}`
-            name.innerHTML = `${element.ship}`
-            placeShip.innerHTML = `Place ${element.ship}`
-
-            let ships = document.createElement('div')
+            let ships = 0
             
+            let xLabel= document.createElement('label')
+            xLabel.innerHTML = 'Choose Your X coordiante'
 
-            ui.append(myShipsX, myShipsY, enter)
+            let yLabel = document.createElement('label')
+            yLabel.innerHTML = 'Choose Your Y coordiante'
 
-            enter.addEventListener('click', () => {
+            let inputX = document.createElement('input')
+            inputX.type = 'number'
+            inputX.max = '9'
+            inputX.min = '0'
 
-                ships.innerHTML = `${element.ship} was placed at ${myShipsX.value}, ${myShipsY.value}`
-                array[myShipsX.value][myShipsY.value] = 0
-                console.log(array)
-                placed.append(ships)
+            let inputY = document.createElement('input')
+            inputY.type = 'number'
+            inputY.max = '9'
+            inputY.min = '0'
+
+        shipInputs.insertBefore(xLabel, sendOutput)
+        shipInputs.insertBefore(inputX, sendOutput)
+
+        shipInputs.insertBefore(yLabel, sendOutput)
+        shipInputs.insertBefore(inputY, sendOutput)
+
+        sendOutput.addEventListener('click', () => {
+
+            if(ships < array.length){
+
+            let placedShip = document.createElement('div')
+            placedShip.innerHTML = `${array[ships].ship} was placed at ${inputX.value}, ${inputY.value}`
+
+            shipName.innerHTML = `${array[ships].ship}`
+            shipLength.innerHTML = `${array[ships].length}`
+
+            placedShips.append(placedShip)
+            console.log(ships)
                 
+            
+            gameBoard[inputX.value][inputY.value] = 0
+            ships++
+            console.log(gameBoard)
 
+            }
+
+            else if(ships == array.length){
+
+               return console.log('all ships have been placed')
+            }
 
 
 
         })
-
-
-
-
-        // ui.append(myShips, enter)
-
-
-        
     }
 
     placeShips(){
@@ -95,13 +109,9 @@ export class Battleship {
         let Destroyer = new Ships('Destroyer', 2)
 
         let shipCount = [Carrier, Battleship, Cruiser, Submarine, Destroyer]
+
+        this.placeShipsUi(shipCount, gameBoard)
         
-
-        for(let i = 0; i < shipCount.length; i++){
-
-            this.placeShipsUi(shipCount[i], gameBoard)
-        }
-
     }
 
     recieveAttack(array, array2){
