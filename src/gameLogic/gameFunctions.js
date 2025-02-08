@@ -2,61 +2,101 @@ import { Ships, ships } from "./gamePeices"
 
 export class Battleship {
 
-    placeShipsUi(array){
+    gameBoard(){
 
-            let divGrid = []
+        let gameBoard = []
 
-            let horizontal = true
+        let board = document.getElementById('gameboard')
 
-            let shipName = document.getElementById('shipName')
-            let shipLength = document.getElementById('shipLength')
-            let placedShips = document.getElementById('placedShips')
+            for(let i = 0; i < 10; i++){
 
-            let board = document.getElementById('gameboard')
+                gameBoard[i] = []
 
-            let ships = 0
-
-            
-        for(let row = 0; row < 10; row++){
-
-            divGrid[row] = []
+                for(let j = 0 ; j < 10; j++){
 
 
-            for(let col = 0; col < 10; col++){
+                    let cell = document.createElement('div')
+                    cell.dataset.x = 3
+                    cell.dataset.y = 3
+                    cell.classList.add('cell')
+                    board.append(cell)
+                    gameBoard[i][j] = cell
+                    if(cell.dataset.x === 'X'){
 
-                let cell = document.createElement('div')
-                cell.classList.add('cell')
-                cell.textContent = row 
-                cell.dataset.x = row
-                cell.dataset.y = col
-
-                cell.addEventListener('click', () => {
-
-                    if(ships != array.length){
-
-                        for(let i = 0; i < array[ships].length; i++){
-
-                            if(col >= 9){
-
-                                return
-                            }
-                            else{
-
-
-                                divGrid[row][col++].dataset.x = 0
-                                divGrid[row][col].style.backgroundColor = 'red'
-                            }
-                        }
+                        cell.style.backgroundColor = 'red'
                     }
-                })
 
-            board.append(cell)
-            divGrid[row][col] = cell
-            
-                
+                    this.gameBoardLogic(gameBoard, i, j, cell)
+
+                }
+
             }
 
+
+            console.log(gameBoard)
+    }
+
+    gameBoardLogic(gameBoard, i, j, cell){
+
+        let isValid = null
+    
+        let horizontal = false
+        let vertical = true
+
+        const checkValues = (gameBoard) => {
+
+            gameBoard.forEach(spot => {
+
+                spot.forEach(element => {
+
+                    if(element.dataset.x === 'X' || element.dataset.y === 'X' ){
+
+                        element.style.backgroundColor = 'red'
+                    }
+                })
+            })
+
         }
+        
+        cell.addEventListener('click', () => {
+
+            // iterate through ships length
+
+            for(let r = 0; r < 5; r++){
+
+                if(i < 0 || i > 9 || j < 0 || j > 9){
+
+                    console.log('invalid')
+                    return
+                }
+                else {
+
+                    if(horizontal == true){
+
+                        gameBoard[i++][j].dataset.x = 'X'
+
+                    }else if( vertical == true){
+
+                        gameBoard[i][j++].dataset.y = 'X'
+
+                    }
+                }
+            }
+            checkValues(gameBoard)
+            
+            console.log(gameBoard)
+        
+            // check if the selection is valid or not 
+            // if valid then you can proceed 
+            
+            
+
+            // must determine wether or not the ship direction is either horizontal or vertical
+        })
+
+        // Iterate ships length first 
+        // If one comes back invalid stop the function
+        // If none come back invalid update the colors
 
     }
 
@@ -133,5 +173,5 @@ export class Battleship {
 
 
 // new Battleship().placeShips()
-new Battleship().placeShips()
+new Battleship().gameBoard()
 // Continue tomorrow
