@@ -2,9 +2,10 @@ import { Ships, ships } from "./gamePeices"
 
 export class Battleship {
 
-    gameBoard(){
+    gameBoard(array){
 
         let gameBoard = []
+        let placedShips = 0
 
         let board = document.getElementById('gameboard')
 
@@ -21,84 +22,52 @@ export class Battleship {
                     cell.classList.add('cell')
                     board.append(cell)
                     gameBoard[i][j] = cell
-                    if(cell.dataset.x === 'X'){
 
-                        cell.style.backgroundColor = 'red'
-                    }
+                    cell.addEventListener('click', () => {
+                        
+                        let horizontal = true
+                        let vertical = false
+                
+                        if(horizontal == true){
+                            if(j + 5 > 10){
+                
+                                console.log('invalid')
+                                return
+                            }else{
+                
+                                console.log('valid')
+                                for(let r = 0; r < array[placedShips].length; r++){
+                
+                                    gameBoard[i][j].style.backgroundColor = 'red'
+                                    gameBoard[i][j++].dataset.x = 'red'
+                
+                                }
+                            }
+                            placedShips++
+                            console.log(placedShips)
+                        }
+                
+                        if(vertical == true){
+                
+                            if(i + 5 > 10){
+                
+                                console.log('invalid')
+                                return
 
-                    this.gameBoardLogic(gameBoard, i, j, cell)
+                            } else{
+                
+                                console.log('valid')
+                            }
+                        }
+                
+                    })
+
 
                 }
-
             }
-
-
             console.log(gameBoard)
     }
 
-    gameBoardLogic(gameBoard, i, j, cell){
-
-        let isValid = null
-    
-        let horizontal = false
-        let vertical = true
-
-        const checkValues = (gameBoard) => {
-
-            gameBoard.forEach(spot => {
-
-                spot.forEach(element => {
-
-                    if(element.dataset.x === 'X' || element.dataset.y === 'X' ){
-
-                        element.style.backgroundColor = 'red'
-                    }
-                })
-            })
-
-        }
-        
-        cell.addEventListener('click', () => {
-
-            // iterate through ships length
-
-            for(let r = 0; r < 5; r++){
-
-                if(i < 0 || i > 9 || j < 0 || j > 9){
-
-                    console.log('invalid')
-                    return
-                }
-                else {
-
-                    if(horizontal == true){
-
-                        gameBoard[i++][j].dataset.x = 'X'
-
-                    }else if( vertical == true){
-
-                        gameBoard[i][j++].dataset.y = 'X'
-
-                    }
-                }
-            }
-            checkValues(gameBoard)
-            
-            console.log(gameBoard)
-        
-            // check if the selection is valid or not 
-            // if valid then you can proceed 
-            
-            
-
-            // must determine wether or not the ship direction is either horizontal or vertical
-        })
-
-        // Iterate ships length first 
-        // If one comes back invalid stop the function
-        // If none come back invalid update the colors
-
-    }
 
     placeShips(){
 
@@ -111,8 +80,7 @@ export class Battleship {
 
         let shipCount = [Carrier, Battleship, Cruiser, Submarine, Destroyer]
 
-        this.placeShipsUi(shipCount)
-        
+        this.gameBoard(shipCount)
     }
 
     recieveAttack(array, array2){
@@ -173,5 +141,5 @@ export class Battleship {
 
 
 // new Battleship().placeShips()
-new Battleship().gameBoard()
+new Battleship().placeShips()
 // Continue tomorrow

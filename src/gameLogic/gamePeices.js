@@ -10,6 +10,7 @@ export class Ships {
 
         this.sunk = false
 
+
     }
 
     isHit(){
