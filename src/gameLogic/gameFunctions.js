@@ -6,6 +6,8 @@ export class Battleship {
 
         let gameBoard = []
         let placedShips = 0
+        let horizontal = false
+        let vertical = true
 
         const addShipsHorizontal = (gameBoard, i, j) => {
 
@@ -21,9 +23,10 @@ export class Battleship {
             for(let r = 0; r < array[placedShips].length; r++){
 
                 gameBoard[i][j].style.backgroundColor = 'red'
-                gameBoard[i++][j].dataset.y = 'X'
+                gameBoard[i++][j].dataset.x = 'X'
             }
         }
+
 
 
         let board = document.getElementById('gameboard')
@@ -43,8 +46,7 @@ export class Battleship {
 
                     cell.addEventListener('click', () => {
                         
-                        let horizontal = false
-                        let vertical = true
+
                         
                         if(placedShips != array.length){
 
@@ -55,6 +57,11 @@ export class Battleship {
                                     console.log('invalid because it is out of bounds')
                                     return
 
+                                }
+                                else if(gameBoard[i][j + array[placedShips].length - 1].dataset.x === 'X'){
+
+                                    console.log('invalid because its X ')
+                                    return
                                 }
                                 else if(gameBoard[i][j].dataset.x === 'X'){
 
@@ -72,7 +79,6 @@ export class Battleship {
                                 console.log(placedShips)
                             }
                     
-
                             if(vertical == true){
 
                                 if(i + array[placedShips].length > 10 ){
@@ -81,7 +87,12 @@ export class Battleship {
                                     return
 
                                 }
-                                else if(gameBoard[i][j].dataset.y === 'X'){
+                                else if(gameBoard[i + array[placedShips].length - 1][j].dataset.x === 'X'){
+
+                                    console.log('invalid because its X ')
+                                    return
+                                }
+                                else if(gameBoard[i][j].dataset.x === 'X'){
 
                                     console.log('invalid because its X ')
                                     return
