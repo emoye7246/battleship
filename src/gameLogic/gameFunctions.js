@@ -2,10 +2,11 @@ import { Ships, ships } from "./gamePeices"
 
 export class Battleship {
 
-    gameBoard(array){
+    gameBoardPlayer(array){
 
         let gameBoard = []
         let placedShips = 0
+
 
         let board = document.getElementById('gameboard')
 
@@ -14,7 +15,6 @@ export class Battleship {
                 gameBoard[i] = []
 
                 for(let j = 0 ; j < 10; j++){
-
 
                     let cell = document.createElement('div')
                     cell.dataset.x = 3
@@ -27,47 +27,119 @@ export class Battleship {
                         
                         let horizontal = true
                         let vertical = false
-                
-                        if(horizontal == true){
-                            if(j + 5 > 10){
-                
-                                console.log('invalid')
-                                return
-                            }else{
-                
+                        
+                        if(placedShips != array.length){
+
+                            if(horizontal == true){
+
+                                if(j + array[placedShips].length > 10 ){
+
+                                    console.log('invalid')
+                                    return
+
+                                }
+                                if(gameBoard[i][j].dataset.x === 'X'){
+
+                                    console.log('invalid')
+                                    return
+                                }
+                                if(gameBoard[i][j + array[placedShips].length - 1].dataset.x === 'X'){
+
+                                    console.log('invalid')
+                                    return
+                                }
+                                
+                                else{
+                    
                                 console.log('valid')
                                 for(let r = 0; r < array[placedShips].length; r++){
-                
+                    
                                     gameBoard[i][j].style.backgroundColor = 'red'
-                                    gameBoard[i][j++].dataset.x = 'red'
-                
+                                    gameBoard[i][j++].dataset.x = 'X'
+                    
+                                    }
+                                }
+                                placedShips++
+                                console.log(placedShips)
+                            }
+                    
+                            if(vertical == true){
+                    
+                                if(i + array[placedShips].length > 10){
+                    
+                                    console.log('invalid')
+                                    return
+
+                                } else{
+                    
+                                    console.log('valid')
+                                    for(let r = 0; r < array[placedShips].length; r++){
+                    
+                                        gameBoard[i][j].style.backgroundColor = 'red'
+                                        gameBoard[i++][j].dataset.x = 'X'
+                    
+                                    }
                                 }
                             }
-                            placedShips++
-                            console.log(placedShips)
                         }
-                
-                        if(vertical == true){
-                
-                            if(i + 5 > 10){
-                
-                                console.log('invalid')
-                                return
 
-                            } else{
-                
-                                console.log('valid')
-                            }
+                        else if(placedShips == array.length){
+
+                            console.log('Congratulations')
+                            return this.startGame(gameBoard)
                         }
                 
                     })
 
+                }
+            }
+    }
+
+    gameBoardComputer(){
+
+        let gameBoard = []
+
+        let gameBoardComp = document.getElementById('gameBoardComp')
+
+                    
+        const pickCell = (gameBoard) => {
+
+            let numRows = gameBoard.length
+            let numCols = gameBoard[0].length
+
+            let i = Math.floor(Math.random() * numRows)
+            let j = Math.floor(Math.random() * numCols)
+        
+
+             console.log(gameBoard[i][j])
+
+             gameBoard[i][j].style.backgroundColor = 'red'
+         }
+
+
+            for(let i = 0; i < 10; i++){
+
+                gameBoard[i] = []
+
+                for(let j = 0; j < 10; j++ ){
+
+                    let cell = document.createElement('div')
+                    cell.dataset.x = 3
+                    cell.dataset.y = 3
+                    cell.classList.add('cell')
+                    gameBoardComp.append(cell)
+                    gameBoard[i][j] = cell
+
+
 
                 }
             }
-            console.log(gameBoard)
-    }
+            pickCell(gameBoard)
 
+
+
+
+    }
 
     placeShips(){
 
@@ -80,7 +152,12 @@ export class Battleship {
 
         let shipCount = [Carrier, Battleship, Cruiser, Submarine, Destroyer]
 
-        this.gameBoard(shipCount)
+        this.gameBoardPlayer(shipCount)
+    }
+
+    startGame(gameBoard){
+
+        
     }
 
     recieveAttack(array, array2){
@@ -142,4 +219,5 @@ export class Battleship {
 
 // new Battleship().placeShips()
 new Battleship().placeShips()
+new Battleship().gameBoardComputer()
 // Continue tomorrow
