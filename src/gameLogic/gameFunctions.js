@@ -9,6 +9,11 @@ export class Battleship {
         let horizontal = false
         let vertical = true
 
+        let board = document.getElementById('gameboard')
+        let changeDirection = document.getElementById('changeDirection')
+
+
+
         const addShipsHorizontal = (gameBoard, i, j) => {
 
             for(let r = 0; r < array[placedShips].length; r++){
@@ -26,10 +31,23 @@ export class Battleship {
                 gameBoard[i++][j].dataset.x = 'X'
             }
         }
+        
 
+        changeDirection.addEventListener('click', () => {
 
+                if(horizontal == true){
 
-        let board = document.getElementById('gameboard')
+                    horizontal = false
+                    vertical = true
+                }
+                else if(vertical == true){
+
+                    vertical = false
+                    horizontal = true
+                }
+                
+            })
+
 
             for(let i = 0; i < 10; i++){
 
@@ -43,10 +61,9 @@ export class Battleship {
                     cell.classList.add('cell')
                     board.append(cell)
                     gameBoard[i][j] = cell
+                    
 
                     cell.addEventListener('click', () => {
-                        
-
                         
                         if(placedShips != array.length){
 
@@ -181,12 +198,6 @@ export class Battleship {
 
         this.gameBoardPlayer(shipCount)
     }
-
-    startGame(gameBoard){
-
-        
-    }
-
     recieveAttack(array, array2){
 
         let check = array2.every((spot) => spot.sunk == true)
@@ -242,9 +253,5 @@ export class Battleship {
     } 
 
 }
-
-
-// new Battleship().placeShips()
 new Battleship().placeShips()
 new Battleship().gameBoardComputer()
-// Continue tomorrow

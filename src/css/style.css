@@ -36,6 +36,11 @@ body{
     background-color: lightgray;
 }
 
+.highlighted{
+
+    background-color: red;
+}
+
 #Ui{
 
     gap: 64px;
