@@ -144,6 +144,20 @@ export class Battleship {
         let gameBoard = []
         let placedShips = 0
 
+        const addHorizontal = (gameBoard, i, j) => {
+
+
+        }
+
+        const addVertical = (gameBoard, i, j) => {
+
+            for(let r = 0; r < array[placedShips].length; r++){
+
+                    gameBoard[i][j].style.backgroundColor = 'blue'
+                    gameBoard[i++][j].dataset.x = 'X'
+            }
+        }
+
         let gameBoardComp = document.getElementById('gameBoardComp')
 
                     
@@ -158,27 +172,69 @@ export class Battleship {
             let direction = ['Horizontal', 'Vertical']
             let compChoice =  direction[Math.floor(Math.random() * direction.length)]
 
-            if(compChoice === 'Horizontal'){
+            if(placedShips != array.length){
 
-                for(let r = 0; r < array[placedShips].length; r++){
+                if(compChoice === 'Horizontal'){
 
-                    gameBoard[i][j++].style.backgroundColor = 'blue'
+                    if(j + array[placedShips].length > 10){
+                        
+                        pickCell(gameBoard)
+                    }
+                    else if(gameBoard[i][j + array[placedShips].length - 1].dataset.x === 'X'){
+
+                        pickCell(gameBoard)
+                        
+                    }
+                    else if(gameBoard[i][j].dataset.x === 'X'){
+                        
+                        pickCell(gameBoard)
+
+                    }
+                    else{
+
+                        for(let r = 0; r < array[placedShips].length; r++){
+
+                            gameBoard[i][j].style.backgroundColor = 'blue'
+                            gameBoard[i][j++].dataset.x = 'X'
+                    }
+                    placedShips++
+                        
+                    }
                 }
-                placedShips++
+
+                
+                if(compChoice === 'Vertical'){
+
+                    if(i + array[placedShips].length > 10){
+
+                        pickCell(gameBoard)
+                    }
+                    else if(gameBoard[i + array[placedShips].length - 1][j].dataset.x === 'X'){
+
+                        pickCell(gameBoard)
+                        
+                    }
+                    else if(gameBoard[i][j].dataset.x === 'X'){
+                        pickCell(gameBoard)
+                        
+                    }
+                    else{
+                        for(let r = 0; r < array[placedShips].length; r++){
+
+                            gameBoard[i][j].style.backgroundColor = 'blue'
+                            gameBoard[i++][j].dataset.x = 'X'
+                    }
+                    placedShips++
+                       
+                    }
+
 
             }
-            
-            if(compChoice === 'Vertical'){
+        }
+        else if(placedShips === array.length){
 
-                for(let r = 0; r < array[placedShips].length; r++){
-
-                    gameBoard[i++][j].style.backgroundColor = 'blue'
-                }
-                placedShips++
-
-
-            }
-             
+            console.log('Comp is Done')
+        }
 
          }
 
