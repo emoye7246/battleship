@@ -139,9 +139,10 @@ export class Battleship {
             }
     }
 
-    gameBoardComputer(){
+    gameBoardComputer(array){
 
         let gameBoard = []
+        let placedShips = 0
 
         let gameBoardComp = document.getElementById('gameBoardComp')
 
@@ -153,12 +154,34 @@ export class Battleship {
 
             let i = Math.floor(Math.random() * numRows)
             let j = Math.floor(Math.random() * numCols)
-        
+            
+            let direction = ['Horizontal', 'Vertical']
+            let compChoice =  direction[Math.floor(Math.random() * direction.length)]
 
-             console.log(gameBoard[i][j])
+            if(compChoice === 'Horizontal'){
 
-             gameBoard[i][j].style.backgroundColor = 'red'
+                for(let r = 0; r < array[placedShips].length; r++){
+
+                    gameBoard[i][j++].style.backgroundColor = 'blue'
+                }
+                placedShips++
+
+            }
+            
+            if(compChoice === 'Vertical'){
+
+                for(let r = 0; r < array[placedShips].length; r++){
+
+                    gameBoard[i++][j].style.backgroundColor = 'blue'
+                }
+                placedShips++
+
+
+            }
+             
+
          }
+
 
 
             for(let i = 0; i < 10; i++){
@@ -174,12 +197,15 @@ export class Battleship {
                     gameBoardComp.append(cell)
                     gameBoard[i][j] = cell
 
-
-
+           
                 }
-            }
-            pickCell(gameBoard)
 
+
+            }
+            for(let r = 0; r < array.length; r++){
+
+                pickCell(gameBoard)
+            }
 
 
 
@@ -198,6 +224,26 @@ export class Battleship {
 
         this.gameBoardPlayer(shipCount)
     }
+
+    placeShipsComp(){
+
+        let Carrier = new Ships('Carrier', 5)
+        let Battleship = new Ships('Battleship', 4)
+        let Cruiser = new Ships('Cruiser', 3)
+        let Submarine = new Ships('Submarine', 3)
+        let Destroyer = new Ships('Destroyer', 2)
+
+        let shipCount = [Carrier, Battleship, Cruiser, Submarine, Destroyer]
+
+        this.gameBoardComputer(shipCount)
+
+    }
+
+    startGame(gameBoard){
+
+        
+    }
+
     recieveAttack(array, array2){
 
         let check = array2.every((spot) => spot.sunk == true)
@@ -253,5 +299,9 @@ export class Battleship {
     } 
 
 }
+
+
+// new Battleship().placeShips()
 new Battleship().placeShips()
-new Battleship().gameBoardComputer()
+new Battleship().placeShipsComp()
+// Continue tomorrow

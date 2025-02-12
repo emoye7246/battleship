@@ -36,40 +36,11 @@ body{
     background-color: lightgray;
 }
 
-.highlighted{
+#playerUI{
 
-    background-color: red;
-}
+    height: 200px;
+    width: 200px;
+    border: 1px solid black;
+    display: none;
 
-#Ui{
-
-    gap: 64px;
-}
-
-#shipUi {
-
-        display: flex;
-        height: auto;
-        width: auto;
-        /* height: max-content; */
-        width: max-content;
-        justify-content: space-evenly;
-        flex-direction: column;
-        align-items: center;
-}
-
-#shipInputs{
-
-        display: flex;
-        flex-direction: row;
-        width: max-content;
-        height: max-content;
-        justify-content: center;
-        align-items: center;
-        gap: 34px;
-}
-#player{
-
-    display: flex;
-    flex-direction: column;
 }
