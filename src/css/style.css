@@ -31,9 +31,11 @@ body{
 }
 
 
-.cell:hover{
 
-    background-color: lightgray;
+
+.highlighted{
+
+    background-color: red;
 }
 
 #playerUI{

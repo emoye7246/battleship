@@ -6,8 +6,8 @@ export class Battleship {
 
         let gameBoard = []
         let placedShips = 0
-        let horizontal = false
-        let vertical = true
+        let horizontal = true
+        let vertical = false
 
         let board = document.getElementById('gameboard')
         let changeDirection = document.getElementById('changeDirection')
@@ -61,7 +61,7 @@ export class Battleship {
                     cell.classList.add('cell')
                     board.append(cell)
                     gameBoard[i][j] = cell
-                    
+
 
                     cell.addEventListener('click', () => {
                         
@@ -137,6 +137,27 @@ export class Battleship {
 
                 }
             }
+            let cells = document.querySelectorAll('.cell')
+            cells.forEach((cell, index) => {
+                cell.addEventListener('mouseover', () => {
+
+                    for(let i = 0; i < array[placedShips].length; i++){
+
+                        const nextCell = cells[index + i]
+                        nextCell.classList.add('highlighted')
+                    }
+                })
+
+                cell.addEventListener('mouseout', () => {
+
+                    for(let i = 0; i < array[placedShips].length; i++){
+
+                        const nextCell = cells[index + i]
+                        nextCell.classList.remove('highlighted')
+                    }
+
+                })
+            })
     }
 
     gameBoardComputer(array){
@@ -357,7 +378,7 @@ export class Battleship {
 }
 
 
-// new Battleship().placeShips()
 new Battleship().placeShips()
 new Battleship().placeShipsComp()
-// Continue tomorrow
+// draggable 
+// hover
