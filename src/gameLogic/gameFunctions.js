@@ -6,8 +6,8 @@ export class Battleship {
 
         let gameBoard = []
         let placedShips = 0
-        let horizontal = true
-        let vertical = false
+        let horizontal = false
+        let vertical = true
 
         let board = document.getElementById('gameboard')
         let changeDirection = document.getElementById('changeDirection')
@@ -138,26 +138,77 @@ export class Battleship {
                 }
             }
             let cells = document.querySelectorAll('.cell')
+            const gridwidth = 10
+
             cells.forEach((cell, index) => {
+
                 cell.addEventListener('mouseover', () => {
 
+                    if(placedShips != array.length){
+
+                        
+                    
+                    
                     for(let i = 0; i < array[placedShips].length; i++){
 
-                        const nextCell = cells[index + i]
-                        nextCell.classList.add('highlighted')
+                        let nextIndex = vertical ? index + i * gridwidth : index + i
+
+                        if(nextIndex < cells.length){
+
+                        if(!vertical && Math.floor(index / gridwidth) === Math.floor(nextIndex / gridwidth) ||
+                        (vertical && nextIndex % gridwidth === index % gridwidth)){
+
+                            cells[nextIndex].classList.add('highlighted')
+                        }
+
+                        
                     }
+     
+                        
+                    }
+                }
+                else if(placedShips === array.length){
+
+                    return
+                }
+
+
                 })
 
                 cell.addEventListener('mouseout', () => {
 
-                    for(let i = 0; i < array[placedShips].length; i++){
 
-                        const nextCell = cells[index + i]
-                        nextCell.classList.remove('highlighted')
+                    if(placedShips != array.length){
+
+                    
+                
+
+                    for(let i = 0; i < array[placedShips].length; i++){
+                        let nextIndex = vertical ? index + i * gridwidth : index + i
+
+                        if(nextIndex < cells.length){
+
+                        if(!vertical && Math.floor(index / gridwidth) === Math.floor(nextIndex / gridwidth) ||
+                        (vertical && nextIndex % gridwidth === index % gridwidth)){
+
+                            cells[nextIndex].classList.remove('highlighted')
+                        }
+
+                        
                     }
+     
+                    }
+                }
+
+                else if(placedShips === array.length){
+
+                    return
+                }
 
                 })
             })
+
+            
     }
 
     gameBoardComputer(array){
@@ -318,6 +369,7 @@ export class Battleship {
 
     startGame(gameBoard){
 
+        return console.log('done')
         
     }
 
