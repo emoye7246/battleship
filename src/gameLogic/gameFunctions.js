@@ -12,27 +12,6 @@ export class Battleship {
         let board = document.getElementById('gameboard')
         let changeDirection = document.getElementById('changeDirection')
 
-
-
-        const addShipsHorizontal = (gameBoard, i, j) => {
-
-            for(let r = 0; r < array[placedShips].length; r++){
-
-                gameBoard[i][j].style.backgroundColor = 'red'
-                gameBoard[i][j++].dataset.x = 'X'
-            }
-        }
-
-        const addShipsVertical = (gameBoard, i, j) => {
-
-            for(let r = 0; r < array[placedShips].length; r++){
-
-                gameBoard[i][j].style.backgroundColor = 'red'
-                gameBoard[i++][j].dataset.x = 'X'
-            }
-        }
-        
-
         changeDirection.addEventListener('click', () => {
 
                 if(horizontal == true){
@@ -53,90 +32,70 @@ export class Battleship {
 
                 gameBoard[i] = []
 
-                for(let j = 0 ; j < 10; j++){
+                for(let j = 0; j < 10; j++ ){
 
                     let cell = document.createElement('div')
-                    cell.dataset.x = 3
-                    cell.dataset.y = 3
                     cell.classList.add('cell')
                     board.append(cell)
-                    gameBoard[i][j] = cell
-
+                    gameBoard[i][j] = 3
 
                     cell.addEventListener('click', () => {
-                        
-                        if(placedShips != array.length){
 
-                            if(horizontal == true){
+                        if(horizontal){
 
-                                if(j + array[placedShips].length > 10 ){
+                            for(let r = 0; r < array[placedShips].length; r++){
 
-                                    console.log('invalid because it is out of bounds')
+                                if(gameBoard[i][j] = 0){
+
+                                    console.log('this spot is taken')
                                     return
+                                }else{
+
+                                gameBoard[i][j++] = 0
 
                                 }
-                                else if(gameBoard[i][j + array[placedShips].length - 1].dataset.x === 'X'){
 
-                                    console.log('invalid because its X ')
-                                    return
-                                }
-                                else if(gameBoard[i][j].dataset.x === 'X'){
-
-                                    console.log('invalid because its X ')
-                                    return
-                                }
-                                
-                                else{
-                    
-                                console.log('valid')
-                                addShipsHorizontal(gameBoard, i, j)
-
-                                }
-                                placedShips++
-                                console.log(placedShips)
                             }
-                    
-                            if(vertical == true){
+                            placedShips++
+                            console.log(gameBoard)
 
-                                if(i + array[placedShips].length > 10 ){
+                        }else{
 
-                                    console.log('invalid because it is out of bounds')
+                            for(let r = 0; r < array[placedShips].length; r++){
+
+                                if(gameBoard[i][j] = 0){
+
+                                    console.log('this spot is taken')
                                     return
+                                }else{
+
+                                    gameBoard[i++][j] = 0
+
 
                                 }
-                                else if(gameBoard[i + array[placedShips].length - 1][j].dataset.x === 'X'){
-
-                                    console.log('invalid because its X ')
-                                    return
-                                }
-                                else if(gameBoard[i][j].dataset.x === 'X'){
-
-                                    console.log('invalid because its X ')
-                                    return
-                                }
-                                
-                                else{
-                    
-                                console.log('valid')
-                                addShipsVertical(gameBoard, i, j)
-
-                                }
-                                placedShips++
-                                console.log(placedShips)
                             }
-                    
+                            placedShips++
+                            console.log(gameBoard)
                         }
 
-                        else if(placedShips == array.length){
 
-                            console.log('Congratulations')
-                            return this.startGame(gameBoard)
-                        }
-                
+                         
+
                     })
 
+                    if(placedShips === array.length){
+
+                        console.log('All ships are placed')
+                    }
+
+                    // As long as the console works you can just manipulate 
+               
+                    
+           
                 }
+
             }
+
             let cells = document.querySelectorAll('.cell')
             const gridwidth = 10
 
@@ -180,9 +139,6 @@ export class Battleship {
 
                     if(placedShips != array.length){
 
-                    
-                
-
                     for(let i = 0; i < array[placedShips].length; i++){
                         let nextIndex = vertical ? index + i * gridwidth : index + i
 
@@ -207,6 +163,7 @@ export class Battleship {
 
                 })
             })
+
 
             
     }
