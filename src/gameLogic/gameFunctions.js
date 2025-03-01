@@ -1,436 +1,139 @@
-import { Ships, ships } from "./gamePeices"
 
 export class Battleship {
+    
+   Gameboard = () => {
 
-    gameBoardPlayer(array){
+    let board = document.getElementById('gameboard')
 
-        let gameBoard = []
-        let placedShips = 0
-        let horizontal = false
-        let vertical = true
+    let gameboard = []
+    let horizontal = true
 
-        let board = document.getElementById('gameboard')
-        let changeDirection = document.getElementById('changeDirection')
+    const changeDirection = () => {
 
+        horizontal = !horizontal
+        console.log(horizontal)
+    }
 
+    const updateBoard = (cell, value) => {
 
-        const addShipsHorizontal = (gameBoard, i, j) => {
+        if(value === 0){
 
-            for(let r = 0; r < array[placedShips].length; r++){
-
-                gameBoard[i][j].style.backgroundColor = 'red'
-                gameBoard[i][j++].dataset.x = 'X'
-            }
+            cell.style.backgroundColor = 'red'
         }
 
-        const addShipsVertical = (gameBoard, i, j) => {
+    }
 
-            for(let r = 0; r < array[placedShips].length; r++){
+    const updateColors = (cell, gameboard, i ,j) => {
 
-                gameBoard[i][j].style.backgroundColor = 'red'
-                gameBoard[i++][j].dataset.x = 'X'
+        updateBoard(cell, gameboard[i][j])
+    }
+
+    const canPlaceShip = (gameboard, i, j) => {
+    
+        if(horizontal){
+
+            if(i + 5 > 10){
+
+                return false
             }
-        }
-        
 
-        changeDirection.addEventListener('click', () => {
+            for(let r = 0; r < 5;  r++){
 
-                if(horizontal == true){
-
-                    horizontal = false
-                    vertical = true
-                }
-                else if(vertical == true){
-
-                    vertical = false
-                    horizontal = true
-                }
-                
-            })
-
-
-            for(let i = 0; i < 10; i++){
-
-                gameBoard[i] = []
-
-                for(let j = 0 ; j < 10; j++){
-
-                    let cell = document.createElement('div')
-                    cell.dataset.x = 3
-                    cell.dataset.y = 3
-                    cell.classList.add('cell')
-                    board.append(cell)
-                    gameBoard[i][j] = cell
-
-
-                    cell.addEventListener('click', () => {
-                        
-                        if(placedShips != array.length){
-
-                            if(horizontal == true){
-
-                                if(j + array[placedShips].length > 10 ){
-
-                                    console.log('invalid because it is out of bounds')
-                                    return
-
-                                }
-                                else if(gameBoard[i][j + array[placedShips].length - 1].dataset.x === 'X'){
-
-                                    console.log('invalid because its X ')
-                                    return
-                                }
-                                else if(gameBoard[i][j].dataset.x === 'X'){
-
-                                    console.log('invalid because its X ')
-                                    return
-                                }
-                                
-                                else{
-                    
-                                console.log('valid')
-                                addShipsHorizontal(gameBoard, i, j)
-
-                                }
-                                placedShips++
-                                console.log(placedShips)
-                            }
-                    
-                            if(vertical == true){
-
-                                if(i + array[placedShips].length > 10 ){
-
-                                    console.log('invalid because it is out of bounds')
-                                    return
-
-                                }
-                                else if(gameBoard[i + array[placedShips].length - 1][j].dataset.x === 'X'){
-
-                                    console.log('invalid because its X ')
-                                    return
-                                }
-                                else if(gameBoard[i][j].dataset.x === 'X'){
-
-                                    console.log('invalid because its X ')
-                                    return
-                                }
-                                
-                                else{
-                    
-                                console.log('valid')
-                                addShipsVertical(gameBoard, i, j)
-
-                                }
-                                placedShips++
-                                console.log(placedShips)
-                            }
-                    
-                        }
-
-                        else if(placedShips == array.length){
-
-                            console.log('Congratulations')
-                            return this.startGame(gameBoard)
-                        }
-                
-                    })
-
+                if(gameboard[i + r][j] != 3){
+                    return false
                 }
             }
-            let cells = document.querySelectorAll('.cell')
-            const gridwidth = 10
+            return true
+        }else{
 
-            cells.forEach((cell, index) => {
+            if(j + 5 > 10){
 
-                cell.addEventListener('mouseover', () => {
+                return false
+            }
 
-                    if(placedShips != array.length){
+            for(let r = 0; r < 5;  r++){
 
-                        
-                    
-                    
-                    for(let i = 0; i < array[placedShips].length; i++){
+                if(gameboard[i][j + r] != 3){
+                    return false
+                }
+            }
+            return true
+        } 
 
-                        let nextIndex = vertical ? index + i * gridwidth : index + i
+    }
 
-                        if(nextIndex < cells.length){
+    let changebutton = document.getElementById('changeDirection')
+    changebutton.addEventListener('click', changeDirection)
 
-                        if(!vertical && Math.floor(index / gridwidth) === Math.floor(nextIndex / gridwidth) ||
-                        (vertical && nextIndex % gridwidth === index % gridwidth)){
 
-                            cells[nextIndex].classList.add('highlighted')
+        for(let i = 0; i < 10; i++){
+
+            gameboard[i] = []
+
+            for(let j = 0; j < 10; j++){    
+
+                let cell = document.createElement('div')
+                cell.classList.add('cell')
+                gameboard[i][j] = 3
+                board.append(cell)
+
+                cell.addEventListener('click', () => {
+
+                    let canPlace = canPlaceShip(gameboard, i, j)
+
+                    if(canPlace === false){
+                        return false
+                    }else{
+
+
+                    if(horizontal){
+
+                        for(let r = 0; r < 5; r++){
+
+                            let row = i + r
+    
+                            if(i + 5 < 10){
+    
+                                gameboard[row][j] = 0
+                                const targetCell = board.children[row * 10 + j]
+                                updateColors(targetCell, gameboard, row, j)
+                            }
+                            else if ( i + 5 > 10){
+    
+                                return
+                            }
+    
+                            }
+                    }else{
+
+                        for(let r = 0; r < 5; r++){
+
+                            let column = j + r
+    
+                            if(j + 5 < 10){
+    
+                                gameboard[i][column] = 0
+                                const targetCell = board.children[i * 10 + column]
+                                updateColors(targetCell, gameboard, i, column)
+                            }
+                            else if (j + 5 > 10){
+    
+                                return
+                            }
+    
+                            }
                         }
 
-                        
+                        console.log(gameboard)
                     }
-     
-                        
-                    }
-                }
-                else if(placedShips === array.length){
-
-                    return
-                }
-
-
                 })
 
-                cell.addEventListener('mouseout', () => {
-
-
-                    if(placedShips != array.length){
-
-                    
-                
-
-                    for(let i = 0; i < array[placedShips].length; i++){
-                        let nextIndex = vertical ? index + i * gridwidth : index + i
-
-                        if(nextIndex < cells.length){
-
-                        if(!vertical && Math.floor(index / gridwidth) === Math.floor(nextIndex / gridwidth) ||
-                        (vertical && nextIndex % gridwidth === index % gridwidth)){
-
-                            cells[nextIndex].classList.remove('highlighted')
-                        }
-
-                        
-                    }
-     
-                    }
-                }
-
-                else if(placedShips === array.length){
-
-                    return
-                }
-
-                })
-            })
-
-            
-    }
-
-    gameBoardComputer(array){
-
-        let gameBoard = []
-        let placedShips = 0
-
-        const addHorizontal = (gameBoard, i, j) => {
-
-
-        }
-
-        const addVertical = (gameBoard, i, j) => {
-
-            for(let r = 0; r < array[placedShips].length; r++){
-
-                    gameBoard[i][j].style.backgroundColor = 'blue'
-                    gameBoard[i++][j].dataset.x = 'X'
-            }
-        }
-
-        let gameBoardComp = document.getElementById('gameBoardComp')
-
-                    
-        const pickCell = (gameBoard) => {
-
-            let numRows = gameBoard.length
-            let numCols = gameBoard[0].length
-
-            let i = Math.floor(Math.random() * numRows)
-            let j = Math.floor(Math.random() * numCols)
-            
-            let direction = ['Horizontal', 'Vertical']
-            let compChoice =  direction[Math.floor(Math.random() * direction.length)]
-
-            if(placedShips != array.length){
-
-                if(compChoice === 'Horizontal'){
-
-                    if(j + array[placedShips].length > 10){
-                        
-                        pickCell(gameBoard)
-                    }
-                    else if(gameBoard[i][j + array[placedShips].length - 1].dataset.x === 'X'){
-
-                        pickCell(gameBoard)
-                        
-                    }
-                    else if(gameBoard[i][j].dataset.x === 'X'){
-                        
-                        pickCell(gameBoard)
-
-                    }
-                    else{
-
-                        for(let r = 0; r < array[placedShips].length; r++){
-
-                            gameBoard[i][j].style.backgroundColor = 'blue'
-                            gameBoard[i][j++].dataset.x = 'X'
-                    }
-                    placedShips++
-                        
-                    }
-                }
-
-                
-                if(compChoice === 'Vertical'){
-
-                    if(i + array[placedShips].length > 10){
-
-                        pickCell(gameBoard)
-                    }
-                    else if(gameBoard[i + array[placedShips].length - 1][j].dataset.x === 'X'){
-
-                        pickCell(gameBoard)
-                        
-                    }
-                    else if(gameBoard[i][j].dataset.x === 'X'){
-                        pickCell(gameBoard)
-                        
-                    }
-                    else{
-                        for(let r = 0; r < array[placedShips].length; r++){
-
-                            gameBoard[i][j].style.backgroundColor = 'blue'
-                            gameBoard[i++][j].dataset.x = 'X'
-                    }
-                    placedShips++
-                       
-                    }
-
-
-            }
-        }
-        else if(placedShips === array.length){
-
-            console.log('Comp is Done')
-        }
-
-         }
-
-
-
-            for(let i = 0; i < 10; i++){
-
-                gameBoard[i] = []
-
-                for(let j = 0; j < 10; j++ ){
-
-                    let cell = document.createElement('div')
-                    cell.dataset.x = 3
-                    cell.dataset.y = 3
-                    cell.classList.add('cell')
-                    gameBoardComp.append(cell)
-                    gameBoard[i][j] = cell
-
-           
-                }
-
-
-            }
-            for(let r = 0; r < array.length; r++){
-
-                pickCell(gameBoard)
             }
 
-
-
-    }
-
-    placeShips(){
-
-
-        let Carrier = new Ships('Carrier', 5)
-        let Battleship = new Ships('Battleship', 4)
-        let Cruiser = new Ships('Cruiser', 3)
-        let Submarine = new Ships('Submarine', 3)
-        let Destroyer = new Ships('Destroyer', 2)
-
-        let shipCount = [Carrier, Battleship, Cruiser, Submarine, Destroyer]
-
-        this.gameBoardPlayer(shipCount)
-    }
-
-    placeShipsComp(){
-
-        let Carrier = new Ships('Carrier', 5)
-        let Battleship = new Ships('Battleship', 4)
-        let Cruiser = new Ships('Cruiser', 3)
-        let Submarine = new Ships('Submarine', 3)
-        let Destroyer = new Ships('Destroyer', 2)
-
-        let shipCount = [Carrier, Battleship, Cruiser, Submarine, Destroyer]
-
-        this.gameBoardComputer(shipCount)
-
-    }
-
-    startGame(gameBoard){
-
-        return console.log('done')
-        
-    }
-
-    recieveAttack(array, array2){
-
-        let check = array2.every((spot) => spot.sunk == true)
-
-        while(check == false){
-
-        let X = window.prompt('Choose an X coordiante for the attack')
-        let Y = window.prompt('Choose an Y coordiante for the attack')
-
-        if(array[X][Y] != 3) {
-
-            array2.forEach((element) => {
-
-                if(element.ship == array[X][Y]){
-
-                    array[X][Y] = 'Hit'
-                    console.log(`Hit ${element.ship}`)
-                    element.hit++
-                    element.isHit()
-                    this.gameOver(array2)
-                }
-                else{
-
-                    console.log(`Missed ${element.ship}`)
-                }
-            })
-            console.log(array2)
-        }
-        else{
-
-            console.log('Miss')
-
         }
 
-    }
-
-    }
-
-    gameOver(array){
-
-        let check = array.every((spot) => spot.sunk == true)
-
-        if(check == true){
-
-            console.log('You WIn')
-        }
-        else{
-            
-            console.log('Game is in progress')
-        }
-        
-
-    } 
+   }
+   
 
 }
-
-
-new Battleship().placeShips()
-new Battleship().placeShipsComp()
-// draggable 
-// hover
+new Battleship().Gameboard()
