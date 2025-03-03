@@ -13,12 +13,11 @@ export class Battleship {
     const changeDirection = () => {
 
         horizontal = !horizontal
-        console.log(horizontal)
     }
 
     const updateBoard = (cell, value) => {
 
-        if(value === 0){
+        if(value != 3){
 
             cell.style.backgroundColor = 'red'
         }
@@ -103,7 +102,7 @@ export class Battleship {
     
                             if(i + array[placedShips].length <= 10){
     
-                                gameboard[row][j] = 0
+                                gameboard[row][j] = array[placedShips].ship
                                 const targetCell = board.children[row * 10 + j]
                                 updateColors(targetCell, gameboard, row, j)
                             }
@@ -123,7 +122,7 @@ export class Battleship {
     
                             if(j + array[placedShips].length <= 10){
     
-                                gameboard[i][column] = 0
+                                gameboard[i][column] = array[placedShips].ship
                                 const targetCell = board.children[i * 10 + column]
                                 updateColors(targetCell, gameboard, i, column)
                             }
@@ -145,7 +144,7 @@ export class Battleship {
                  else if(placedShips === array.length){
 
 
-                    return this.StartGame()
+                    return this.StartGame(cell, i, j)
                 }
 
                 })
